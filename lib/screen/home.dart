@@ -22,6 +22,8 @@ class Home extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).colorScheme.onPrimaryFixedVariant),
             ),
+            SizedBox(height: 15,),
+            
             ElevatedButton(
               onPressed: () {
                  Navigator.push(
