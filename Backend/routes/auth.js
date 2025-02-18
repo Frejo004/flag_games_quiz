@@ -1,9 +1,9 @@
 const express = require('express')
-const routes = require('./routes')
-const {login, register}  = require('/controllers/login')
-const {login, register}  = require('/controllers/register')
+const routes = express.Router()
+const {login}  = require('../controllers/loginController')
+const {register}  = require('../controllers/registerController')
 
- routes.post('/login', login);
- routes.post('/register', register);
+routes.post('/login', login);
+routes.post('/register', register);
 
- export default routes;
+module.exports = routes;
