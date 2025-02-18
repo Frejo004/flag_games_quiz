@@ -4,13 +4,20 @@ import 'package:http/http.dart' as http;
 class Country {
   final String name;
   final String flag;
+  final String capital;
 
-  Country({required this.name, required this.flag});
+  Country({required this.name, required this.flag, required this.capital});
 
   factory Country.fromJson(Map<String, dynamic> json) {
+    // Safely extracting the name, flag, and capital
+    final name = json['translations']?['fra']?['common'] ?? 'Unknown';
+    final flag = json['flags']?['png'] ?? 'https://via.placeholder.com/150'; 
+    final capital = json['capital']?.isNotEmpty ?? false ? json['capital'][0] : 'Unknown';
+
     return Country(
-      name: json['name']['common'],
-      flag: json['flags']['png'],
+      name: name,
+      flag: flag,
+      capital: capital,
     );
   }
 }
