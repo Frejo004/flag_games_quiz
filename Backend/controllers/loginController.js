@@ -1,37 +1,42 @@
-const connect = require('../models/base')
+const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.login = (req, res) => {
-  const { email, password } = req.body
-  const query = 'SELECT * FROM users WHERE email = ? AND password = ?'
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
 
-  //Verification des champs email et password
-  //si le champs email est vide ou null
-  connect.query(query, [email], async (err, resultat) => {
-    if (err) {
-      console.log(err)
-      return res.status(500).json({ message: 'Erreur serveur' })
+    if (!email || !password) {
+        return res.status(400).send('Email and password are required');
     }
-    if (resultat.length === 0) {
-      return res
-        .status(404)
-        .json({
-          message: "Email n'existe pas ou l'Utilisateur n'est pas trouvé"
-        })
-    };
 
-    //verification du mot de passe
-    const user = resultat[0]
-    const PasswordValid = await bcrypt.compare(password, user.password)
-    if (!PasswordValid) {
-      return res.status(401).json({ message: 'Mot de passe incorrect' }) 
-    };
+    try {
+        const connection = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_DATABASE
+        });
 
-    //création du token 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expresIn: '2h'
-      });
-    res.status(200).json({message: 'Connexion réussie', token: token})
-  })
-}
+        const [rows] = await connection.execute('SELECT * FROM users WHERE email = ?', [email]);
+
+        if (rows.length === 0) {
+            return res.status(401).send('Email ou Password incorrect');
+        }
+
+        const user = rows[0];
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).send('Email ou Password incorrect');
+        }
+        const token = jwt.sign(
+          { id: user.id, email: user.email },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+      );
+        res.status(200).send('Connexion réussie');
+    } catch (error) {
+        res.status(500).send('Erreur lors de la connexion');
+    }
+};
