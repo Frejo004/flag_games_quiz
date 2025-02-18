@@ -16,7 +16,6 @@ class Home extends StatelessWidget {
             '/countries.png',
             fit: BoxFit.cover,
           ),
-          // Your existing widgets
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flip_card/flip_card.dart'; // Import the FlipCard package
+import 'package:flip_card/flip_card.dart';
 import 'package:flag_games_quiz/models/countries.dart';
 import 'package:flag_games_quiz/screen/score.dart';
 
@@ -21,7 +21,7 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
   late AnimationController _controller;
   late Animation<double> _animation;
   Map<String, Color> buttonColors = {};
-  late FlipCardController _flipCardController; // Flip card controller
+  late FlipCardController _flipCardController; 
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
       vsync: this,
     );
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-    _flipCardController = FlipCardController(); // Initialize flip card controller
+    _flipCardController = FlipCardController(); 
 
     fetchCountries().then((fetchedCountries) {
       setState(() {
@@ -95,12 +95,10 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
           Image.asset(
-            'f-d.jpg', // Replace with your background image URL
+            'f-d.jpg', 
             fit: BoxFit.cover,
           ),
-          // Your existing game content
           Column(
             children: [
               Center(
@@ -110,7 +108,7 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                     fontSize: 40,
-                    color: Colors.white, // Text color to ensure visibility
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -133,7 +131,7 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
-                      color: Colors.white, // Text color to ensure visibility
+                      color: Colors.white,
                     ),
                   ),
                   IconButton(
@@ -167,7 +165,7 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white, // Text color to ensure visibility
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -182,7 +180,7 @@ class _GamePageState extends State<GamePage> with SingleTickerProviderStateMixin
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   'Score: $score',
-                  style: TextStyle(fontSize: 20, color: Colors.white), // Text color
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
             ],
@@ -220,7 +218,7 @@ class Games extends StatelessWidget {
           child: FadeTransition(
             opacity: _animation,
             child: FlipCard(
-              controller: _flipCardController, // Use the controller for flipping
+              controller: _flipCardController,
               direction: FlipDirection.HORIZONTAL,
               front: Card(
                 elevation: 16,

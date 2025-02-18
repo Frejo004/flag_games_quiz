@@ -87,7 +87,7 @@ class _ScoreGameState extends State<ScoreGame> with SingleTickerProviderStateMix
                   ),
                   SizedBox(height: 20),
                   ScaleTransition(
-                    scale: _scoreAnimation, // Scale effect for score
+                    scale: _scoreAnimation, 
                     child: Text(
                       'Votre score final est: ${widget.finalScore}',
                       style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -96,7 +96,7 @@ class _ScoreGameState extends State<ScoreGame> with SingleTickerProviderStateMix
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pop(); // Smooth transition back to the game
+                      Navigator.of(context).pop();
                     },
                     child: Text('Jouer encore'),
                   ),
