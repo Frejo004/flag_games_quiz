@@ -1,4 +1,6 @@
 const connect = require('../models/base')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.login = (req, res) => {
   const { email, password } = req.body
