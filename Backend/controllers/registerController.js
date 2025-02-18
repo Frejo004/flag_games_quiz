@@ -1,19 +1,17 @@
-const connect = require('../models/base')
+const db = require('../models/base');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
+// Inscription
 exports.register = async (req, res) => {
-    const {username, email, password} = req.body;
-    try {
-        const hashedPassword = await bcrypt.hash(password, 15);
-        const query = 'INSERET INTO users (username, email, passsword) VALUES (?,?,?)';
-        connect.query(query [username, email, hashedPassword], (err)=> {
-            if(err) {
-                return res.status(500).json({message :'Erreur serveur'});
-            }
-            res.status(201).json({message : 'Utilisateur créé avec succès'});
-        })
-    } catch (error) {
-        res.status(500).json({message : 'Erreur lors de l\'incription '})
-    }
-}
+  const { username, email, password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+    db.query(query, [username, email, hashedPassword], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(201).json({ message: 'Utilisateur créé avec succès' });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Erreur lors de l’inscription' });
+  }
+};
